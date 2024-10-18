@@ -10,6 +10,8 @@ Kh = 0.96
 lst_bol = False
 
 plt.figure(figsize=(10, 6))
+plt.get_current_fig_manager().set_window_title('Домашнее задание по дисциплине "Финишные и абразивные методы обработки"')
+
 
 def schema_definition(s, r, φ, φ1):
     fi0 = 0
@@ -80,7 +82,6 @@ def h3_definition(s):
     τ_s = 0.75 * σ_b
     x1 = math.sqrt(math.pow(τ_s,2)+math.pow(σ_t,2))
     b_s = 0.5 * (1000 * ρ * (1 - (τ_s / x1)))
-    #print("b_s",b_s)
     scheme, fi0 = schema_definition(s, lst[7-1], lst[4-1], lst[5-1])
     if scheme == 1 or scheme == 5:
         h3 = b_s / ((1 / tg(φ)) + 1 / tg(φ1))
@@ -125,18 +126,12 @@ def create_graph():
         xRz.append(round(i,3))
         yRz.append(Rz_definition(h1_definition(round(i, 3)), h3_definition((round(i, 3)))))
 
-
-    #plt.figure(figsize=(10,10))
     plt.subplots_adjust(left = 0.13,
                     right = 0.93,
                     top = 1.0,
                     bottom = 0.27,
                     wspace = 0.3,
                     hspace = 0.3)
-    #plt.title('grafick')
-    #plt.xlabel('s, мм/об')
-    #plt.ylabel('h, mm')
-    #plt.text (5,5, 'Here we go')
 
     ax1 = plt.subplot(1, 3, 1)
     plt.plot(x1,y1, "r", label="h1(s)")
@@ -144,12 +139,7 @@ def create_graph():
     ax1.set_ylabel('h1, мкм')
     text_1 = ("Параметры при s = " + str(lst[11])+" мм/об: ") + ("h1 = " + str(round(h1_definition(lst[12-1]), 3)) + " мкм, ") + ("h3 = " + str(round(h3_definition(lst[12-1]),3)) +" мкм, ") + ("h4 = "+ str(round(lst[1],3))+" мкм, ") + ("Rz = " + str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3)) +" мкм.")
     plt.text(0,-15, text_1)
-    #text_1 = ("h1 = " + str(round(h1_definition(lst[12-1]),3)) +" мкм,")+("h3 = " + str(round(h3_definition(lst[12-1]),3)) +" мкм")+("Rz = " + str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3)) +" мкм")
-    #plt.text(0.21,-3, text_1)
-    #text_1 = "h3 = " + str(round(h3_definition(lst[12-1]),3)) +" мкм"
-    #plt.text(0.5,-3, text_1)
-    #text_1 = "Rz = " + str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3)) +" мкм"
-    #plt.text(0.7,-3, text_1)
+
     plt.legend()
 
 
@@ -165,6 +155,7 @@ def create_graph():
     ax3.set_ylabel('Rz, мкм')
 
     plt.legend()
+    plt.subplots_adjust(left = 0.1, top = 0.95) 
     plt.savefig('graph')
     plt.show()
 
