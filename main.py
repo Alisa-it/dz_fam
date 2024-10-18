@@ -9,7 +9,6 @@ scheme = "0"
 Kh = 0.96
 lst_bol = False
 
-plt.figure(figsize=(10, 6))
 plt.get_current_fig_manager().set_window_title('Домашнее задание по дисциплине "Финишные и абразивные методы обработки"')
 
 
@@ -126,37 +125,32 @@ def create_graph():
         xRz.append(round(i,3))
         yRz.append(Rz_definition(h1_definition(round(i, 3)), h3_definition((round(i, 3)))))
 
-    plt.subplots_adjust(left = 0.13,
-                    right = 0.93,
-                    top = 1.0,
-                    bottom = 0.27,
-                    wspace = 0.3,
-                    hspace = 0.3)
+    plt.subplots_adjust(left = 0.1, top = 1, wspace = 0.5, hspace = 0.1)
 
-    ax1 = plt.subplot(1, 3, 1)
-    plt.plot(x1,y1, "r", label="h1(s)")
+    ax1 = plt.subplot(2, 3, 1)
+    plt.plot(x1, y1, "r", label="h1(s)")
     ax1.set_xlabel("s, мм/об")
     ax1.set_ylabel('h1, мкм')
-    text_1 = ("Параметры при s = " + str(lst[11])+" мм/об: ") + ("h1 = " + str(round(h1_definition(lst[12-1]), 3)) + " мкм, ") + ("h3 = " + str(round(h3_definition(lst[12-1]),3)) +" мкм, ") + ("h4 = "+ str(round(lst[1],3))+" мкм, ") + ("Rz = " + str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3)) +" мкм.")
-    plt.text(0,-15, text_1)
-
     plt.legend()
 
 
-    ax2 = plt.subplot(1,3,2)
+    ax2 = plt.subplot(2, 3, 2)
     plt.plot(x2,y2, label="h3(s)")
     ax2.set_xlabel("s, мм/об")
     ax2.set_ylabel('h2, мкм')
     plt.legend()
 
-    ax3 = plt.subplot(1,3,3)
+    ax3 = plt.subplot(2, 3, 3)
     plt.plot(xRz,yRz, label="Rz(s)", color = "green")
     ax3.set_xlabel("s, мм/об")
     ax3.set_ylabel('Rz, мкм')
-
     plt.legend()
+
+    text_1 = (f'Параметры при s = {str(lst[11])} мм/об:\n-  h1 = {str(round(h1_definition(lst[12-1]), 3))} мкм\n-  h3 = {str(round(h3_definition(lst[12-1]),3))} мкм\n-  h4 = {str(round(lst[1],3))} мкм\n-  Rz = {str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3))} мкм.')
+    plt.text(-1.9, 0, text_1)
+    plt.legend()
+
     plt.subplots_adjust(left = 0.1, top = 0.95) 
-    plt.savefig('graph')
     plt.show()
 
 print("h1 =",round(h1_definition(lst[12-1]),3),"мкм")
