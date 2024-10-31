@@ -27,8 +27,11 @@
 Чтобы собрать проект введите в консоль поочередно:
 
 `> pip install requirements.txt` 
+
 `> pyinstaller HW.spec`
+
 Затем добавьте **university.ico** в папку **/build/HW**
+
 И **fam.xlsx** в папку **/dist**
 
 Готово!
