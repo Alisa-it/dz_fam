@@ -12,9 +12,6 @@ scheme = "0"
 Kh = 0.96
 lst_bol = False
 
-plt.get_current_fig_manager().set_window_title('Домашнее задание по дисциплине "Финишные и абразивные методы обработки"')
-
-
 def schema_definition(s, r, φ, φ1):
     φ0 = 0
     A = 0
@@ -105,53 +102,50 @@ def Rz_definition(h1, h3):
     return (Rz)
 
 def create_graph(lst):
+    
+    plt.figure(figsize=(10, 6)) 
+    plt.get_current_fig_manager().set_window_title('Домашнее задание по дисциплине "Финишные и абразивные методы обработки"')
+     
     x1 = []
     y1 = []
     x2 = []
     y2 = []
-    x_schem = []
-    y_schem = []
     xRz = []
     yRz = []
 
     for i in np.arange(0.08, 0.61, 0.01):
-        x1.append(round(i,3))
+        x1.append(round(i, 3))
         y1.append(h1_definition(round(i, 3)))
 
-        x2.append(round(i,3))
-        y2.append(h3_definition((round(i, 3))))
+        x2.append(round(i, 3))
+        y2.append(h3_definition(round(i, 3)))
 
-        x_schem.append(round(i, 3))
-        scheme, fi0 = schema_definition(round(i, 3), lst[7 - 1], lst[4 - 1], lst[5 - 1])
-        y_schem.append(scheme)
+        xRz.append(round(i, 3))
+        yRz.append(Rz_definition(h1_definition(round(i, 3)), h3_definition(round(i, 3))))
 
-        xRz.append(round(i,3))
-        yRz.append(Rz_definition(h1_definition(round(i, 3)), h3_definition((round(i, 3)))))
+    plt.subplots_adjust(left=0.1, right=1, top=0.9, bottom=0.1, wspace=0.4, hspace=0.4)
 
-    plt.subplots_adjust(left = 0.1, top = 1, wspace = 0.5, hspace = 0.1)
-
-    ax1 = plt.subplot(2, 3, 1)
+    ax1 = plt.subplot(1, 3, 1)
     plt.plot(x1, y1, "r", label="h1(s)")
     ax1.set_xlabel("s, мм/об")
     ax1.set_ylabel('h1, мкм')
     plt.legend()
 
+    text_1 = (f'Параметры при s = {str(lst[11])} мм/об:\n-  h1 = {str(round(h1_definition(lst[12-1]), 3))} мкм\n-  h3 = {str(round(h3_definition(lst[12-1]),3))} мкм\n-  h4 = {str(round(lst[1],3))} мкм\n-  Rz = {str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3))} мкм.')
+    plt.text(-0.5, -0.3, text_1, ha='left', transform=plt.gca().transAxes)
+    plt.legend()
 
-    ax2 = plt.subplot(2, 3, 2)
-    plt.plot(x2,y2, label="h3(s)")
+    ax2 = plt.subplot(1, 3, 2)
+    plt.plot(x2, y2, label="h3(s)")
     ax2.set_xlabel("s, мм/об")
     ax2.set_ylabel('h2, мкм')
     plt.legend()
 
-    ax3 = plt.subplot(2, 3, 3)
-    plt.plot(xRz,yRz, label="Rz(s)", color = "green")
+    ax3 = plt.subplot(1, 3, 3)
+    plt.plot(xRz, yRz, label="Rz(s)", color="green")
     ax3.set_xlabel("s, мм/об")
     ax3.set_ylabel('Rz, мкм')
     plt.legend()
 
-    text_1 = (f'Параметры при s = {str(lst[11])} мм/об:\n-  h1 = {str(round(h1_definition(lst[12-1]), 3))} мкм\n-  h3 = {str(round(h3_definition(lst[12-1]),3))} мкм\n-  h4 = {str(round(lst[1],3))} мкм\n-  Rz = {str(round((Rz_definition(h1_definition(lst[12-1]),h3_definition(lst[12-1]))),3))} мкм.')
-    plt.text(-1.9, 0, text_1)
-    plt.legend()
-
-    plt.subplots_adjust(left = 0.1, top = 0.95) 
+    plt.tight_layout()
     plt.show()
