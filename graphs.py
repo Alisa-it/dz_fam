@@ -126,6 +126,8 @@ def create(schema, lst):
     ax[1, 1].set_ylabel("Rz, мкм") 
     ax[1, 1].plot(s, rz, color ="black")
 
+    # fig.text(0.5, 0.05, 'Figure text', fontsize = 16)
+    fig.canvas.manager.set_window_title('Домашнее задание ФАМО')
     fig.tight_layout()
     plt.show()      
 
