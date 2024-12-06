@@ -12,19 +12,20 @@ def define_lst(variant):
 # lst = [20, 0.6, 7, 30, 10, 20, 0.4, 0.01, 0.2, 350, 1, 0.2, 400, 290]
 
 schema = 0
+variant = 2
 
 def define_h1(schema, lst, s):
 
     r = lst[6]
     fi = lst[3]
     fi1 = lst[4]
-
+# j - посмотреть в паспорте если 5 Н приложил то поделить (справочник технолога машиностроителя)
     match schema:
 
         case 1:
             h1 = s * ((sin(fi) * sin(fi1)) / (sin(fi) + sin(fi1)))
         case 2:
-            h1 = r - sqrt((r**2) - ((s / 2)**2))
+            h1 = r - sqrt(abs((r**2) - ((s / 2)**2)))
         case 3:
             fi0 = arccos((r - (s * sin(fi1))) / r) - fi1
             a = r * ((cos(fi1) - cos(fi0)) / (tg(fi1)))
@@ -90,7 +91,7 @@ def define_Rz(schema, lst, s):
 
 def create(schema, lst):
 
-    fig, ax = plt.subplots(2, 2)
+    fig, ax = plt.subplots(2, 3)
 
     s = np.linspace(0.08, 0.6, 60)
 
@@ -126,9 +127,14 @@ def create(schema, lst):
     ax[1, 1].set_ylabel("Rz, мкм") 
     ax[1, 1].plot(s, rz, color ="black")
 
-    # fig.text(0.5, 0.05, 'Figure text', fontsize = 16)
+    ax[0, 2].set_axis_off()
+    ax[1, 2].set_axis_off()
+
+    fig.text(0.7, 0.55, f'Вариант {variant}\n\nRzi = {lst[0]} мкм\nRzb = {lst[1]} мкм\nλ = {lst[2]}°\nϕ = {lst[3]}°\nϕ1 = {lst[4]}°\nγ = {lst[5]}°\nr = {lst[6]} мм\nρ = {lst[7]} мм\nhz = {lst[8]} мм\nv = {lst[9]} м/мин\nt = {lst[10]} мм\ns = {lst[11]} мм/об\n', fontsize = 12)
+    fig.text(0.7, 0.3, f'h1 = {'{:f}'.format(define_h1(schema, lst, lst[11]))} мкм\nh2 = {define_h2()} мкм\nh3 = {'{:f}'.format(define_h3(schema, lst, lst[11]))} мкм\nh4 = {define_h4(lst)} мкм\nRz = {'{:f}'.format(define_Rz(schema, lst, lst[11]))} мкм', fontsize = 12)
     fig.canvas.manager.set_window_title('Домашнее задание ФАМО')
     fig.tight_layout()
+
     plt.show()      
 
 def define_schema(lst):
@@ -140,13 +146,13 @@ def define_schema(lst):
 
     if ((r >= 0) and (r < s/2)):
         schema = 1
-    elif ((fi >= arcsin((s/2)/r)) and (fi1 >= arcsin((s/2)/r))):
+    elif ((fi >= arcsin(s/2/r)) and (fi1 >= arcsin(s/2/r))):
         schema = 2
-    elif ((fi > arcsin((s/2)/r)) and (fi1 <= arcsin((s/2)/r))):
+    elif ((fi > arcsin(s/2/r)) and (fi1 <= arcsin(s/2/r))):
         schema = 3
-    elif ((fi <= arcsin((s/2)/r)) and (fi1 > arcsin((s/2)/r))):
+    elif ((fi <= arcsin(s/2/r)) and (fi1 > arcsin(s/2/r))):
         schema = 4
-    elif ((fi < arcsin((s/2)/r)) and (fi1 < arcsin((s/2)/r))):
+    elif ((fi < arcsin(s/2/r)) and (fi1 < arcsin(s/2/r))):
         schema = 5
 
     print(f'Schema = {schema}')
@@ -161,4 +167,4 @@ def define_schema(lst):
 
     create(schema, lst)
 
-define_lst(2)
+define_lst(variant)
