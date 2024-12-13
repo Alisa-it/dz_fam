@@ -39,9 +39,15 @@ def define_h1(schema, lst, s):
             h1 = (r * (1 - cos(fi))) + (b * tg(fi))
     return h1
 
-def define_h2():
-
-    return 0
+def define_h2(lst, s):
+    t = lst[10]
+    hb = lst[14]
+    rzi = lst[0]
+    j = 400 
+    py = 0.0027*(t**1.20)*(s**0.75)*(hb**1.3) 
+    pyr = 0.0027*((t - (rzi/1000))**1.20)*(s**0.75)*(hb**1.3)
+    h2 = (py - pyr) / j
+    return h2
 
 def define_h3(schema, lst, s):
 
@@ -82,7 +88,7 @@ def define_Rz(schema, lst, s):
     Kv = 3.5 * (v**(-0.25))
 
     h1 = define_h1(schema, lst, s)
-    h2 = define_h2()
+    h2 = define_h2(lst, s)
     h3 = define_h3(schema, lst, s)
     h4 = define_h4(lst)
 
@@ -96,14 +102,14 @@ def create(schema, lst):
     s = np.linspace(0.08, 0.6, 60)
 
     h1 = []
+    h2 = []
     h3 = []
-    h4 = []
     rz = []
 
     for i in s:
         h1.append(define_h1(schema, lst, i))
         h3.append(define_h3(schema, lst, i))
-        h4.append(define_h4(lst))
+        h2.append(define_h2(lst, i))
         rz.append(define_Rz(schema, lst, i))
 
         
@@ -117,10 +123,10 @@ def create(schema, lst):
     ax[0, 1].set_ylabel("h3, мкм") 
     ax[0, 1].plot(s, h3, color ="blue") 
 
-    ax[1, 0].set_title("Зависимость h4(s)") 
+    ax[1, 0].set_title("Зависимость h2(s)") 
     ax[1, 0].set_xlabel("s, мм/об") 
-    ax[1, 0].set_ylabel("h4, мкм") 
-    ax[1, 0].plot(s, h4, color ="red")
+    ax[1, 0].set_ylabel("h2, мкм") 
+    ax[1, 0].plot(s, h2, color ="red")
 
     ax[1, 1].set_title("Зависимость Rz(s)") 
     ax[1, 1].set_xlabel("s, мм/об") 
@@ -131,7 +137,7 @@ def create(schema, lst):
     ax[1, 2].set_axis_off()
 
     fig.text(0.7, 0.55, f'Вариант {variant}\n\nRzi = {lst[0]} мкм\nRzb = {lst[1]} мкм\nλ = {lst[2]}°\nϕ = {lst[3]}°\nϕ1 = {lst[4]}°\nγ = {lst[5]}°\nr = {lst[6]} мм\nρ = {lst[7]} мм\nhz = {lst[8]} мм\nv = {lst[9]} м/мин\nt = {lst[10]} мм\ns = {lst[11]} мм/об\n', fontsize = 12)
-    fig.text(0.7, 0.3, f'h1 = {'{:f}'.format(define_h1(schema, lst, lst[11]))} мкм\nh2 = {define_h2()} мкм\nh3 = {'{:f}'.format(define_h3(schema, lst, lst[11]))} мкм\nh4 = {define_h4(lst)} мкм\nRz = {'{:f}'.format(define_Rz(schema, lst, lst[11]))} мкм', fontsize = 12)
+    fig.text(0.7, 0.3, f'h1 = {'{:f}'.format(define_h1(schema, lst, lst[11]))} мкм\nh2 = {'{:f}'.format(define_h2(lst, lst[11]))} мкм\nh3 = {'{:f}'.format(define_h3(schema, lst, lst[11]))} мкм\nh4 = {define_h4(lst)} мкм\nRz = {'{:f}'.format(define_Rz(schema, lst, lst[11]))} мкм', fontsize = 12)
     fig.canvas.manager.set_window_title('Домашнее задание ФАМО')
     fig.tight_layout()
 
@@ -158,7 +164,7 @@ def define_schema(lst):
     print(f'Schema = {schema}')
 
     h1 = define_h1(schema, lst, s)
-    h2 = define_h2()
+    h2 = define_h2(lst, s)
     h3 = define_h3(schema, lst, s)
     h4 = define_h4(lst)
     rz = define_Rz(schema, lst, s)

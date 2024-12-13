@@ -5,7 +5,7 @@ def from_variant(variant):
     sheet = wb["Дано"]
     lst = []
     row_index = variant + 1
-    for cellObj in sheet[f'A{row_index}':f'N{row_index}']:
+    for cellObj in sheet[f'A{row_index}':f'O{row_index}']:
         for cell in cellObj:
             lst.append(cell.value)
     wb.save("fam.xlsx")
