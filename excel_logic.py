@@ -12,12 +12,12 @@ def from_variant(variant):
     return lst
     
 
-def to_variant(lst):
-    wb = load_workbook('fam.xlsx')
-    sheet = wb["Дано"]
-    row_count = sheet.max_row + 1
+# def to_variant(lst):
+#     wb = load_workbook('fam.xlsx')
+#     sheet = wb["Дано"]
+#     row_count = sheet.max_row + 1
 
-    for i in range(len(lst)):
-        sheet.cell(row = row_count, column = i+1).value = lst[i]
+#     for i in range(len(lst)):
+#         sheet.cell(row = row_count, column = i+1).value = lst[i]
     
-    wb.save("fam.xlsx")
+#     wb.save("fam.xlsx")
