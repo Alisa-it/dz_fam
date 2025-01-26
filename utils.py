@@ -12,6 +12,10 @@ def arccos(x):
     float(x)
     return(math.acos(x))
 
+def arcsin(x):
+    float(x)
+    return(math.asin(x))
+
 def cos(x):
     float(x)
     return(math.cos(math.radians(x)))
